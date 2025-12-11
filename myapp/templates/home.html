@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block user_name %}
+{{ user_name }}
+{% endblock %}
+{% block content %}
+
+<section>
+
+  <!-- container -->
+  <div class="min-vh-100 d-flex flex-column gap-2 align-items-center">
+    <!-- add btn -->
+
+    <div class=" d-flex flex-column">
+      <a onclick="toggleForm()" class="align-self-center"><i style="color:black; font-size: 2rem;"
+          class="bi bi-plus-circle-fill"></i></a>
+      <div id="task-form-sec" style="display: none;">
+        <!-- task input -->
+        <form id="task-form" class="d-flex gap-2 justify-content-center" action="{% url 'addTask' %}" method="post">
+          {% csrf_token %}
+          <input type="text" name="task-name" id="task-inp" class="task-form-area form-control w-25" autofocus
+            placeholder="Enter Task" required>
+          <button class="btn btn-dark rounded-2">Add</button>
+        </form>
+      </div>
+    </div>
+    <!-- section btns -->
+    <div class="d-flex justify-content-center">
+      <div class="">
+        <a href="{% url 'home' %}" class="sections btn btn-dark">Active</a>
+        <a href="{% url 'completedTasks' %}" class="sections btn  btn-outline-dark rounded-pill">Completed</a>
+        <a href="{% url 'allTasks' %}" class="sections btn btn-outline-dark">All todos</a>
+      </div>
+    </div>
+
+    <!--display tsks  -->
+    <div class="tasks-sectin d-flex justify-content-center">
+
+      <div class="p-2 task-section">
+        {% for task in tasks %}
+        <div id="task-box" class="rounded-2 d-flex justify-content-between px-4 py-2 task bg-info-subtle mb-2 ">
+          <!-- mark as done and task name -->
+          <div class="d-flex gap-2 ">
+            <!-- mark form -->
+            <form action="{% url 'markTask' task.id %}?next={{ request.path }}" id="mark-form">
+              <input class="form-check-input" id="radio-done" type="radio" onchange="displayDialog('done',this)">
+            </form>
+            <span style="display: inline;"> {{ task.task_name }}</span>
+          </div>
+          <!-- delete button -->
+          <form action="{% url 'delTask' task.id %}?next={{ request.path }}" method="post">
+            {% csrf_token %}
+            <a onclick="displayDialog('delete',this)"><i class="bi bi-trash3-fill"></i></a>
+          </form>
+        </div>
+        {% empty %}
+        <img class="display-img" src="{% static 'images/humans.png' %}" alt="no files found">
+        <p style="text-align: center;">No active todos.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+
+
+
+
+</script>
+
+{% endblock %}

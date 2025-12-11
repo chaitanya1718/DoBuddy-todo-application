@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"
+        defer></script>
+</head>
+<style>
+    .dialog-box-class {
+        transform: translate(-50%, -50%);
+        padding: 0px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: min(320px,90vw);
+        height: 150px;
+       background-color: #D4F6FF;
+       box-shadow: white 0px 0px 10px;
+        border-radius: 15px;
+          z-index:1000;
+    }
+    #overlay{
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,0.35);
+  z-index:999;
+    }
+</style>
+
+<body>
+
+    <!-- dialog box -->
+    <div class="dialog-box-class">
+        <div>
+            <p class="fs-4">Mark this task as completed</p>
+        </div>
+        <!-- action -btns -->
+        <div class="d-flex justify-content-end gap-3">
+            <button class="btn btn-outline-dark">Cancel</button>
+            <button class="btn btn-danger" onclick="confirmDelete()">Yes</button>
+        </div>
+    </div>
+    <!-- dialog box end -->
+<div id="overlay"></div>
+
+<script>
+
+</script>
+</body>
+
+</html>
+
+

@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TO-DO</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+
+  <!-- font liks -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"
+    defer></script>
+  <style>
+    .sections {
+      width: 150px;
+      border-radius: 25px;
+
+    }
+    body{
+
+font-size: larger;
+    }
+
+    .dialog-box-class {
+      transform: translate(-50%, -50%);
+      padding: 0px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: min(320px, 90vw);
+      height: 150px;
+      /* background-color: #D4F6FF; */
+      box-shadow: black 0px 0px 10px;
+      border-radius: 15px;
+      z-index: 1000;
+    }
+
+    #logo{
+      width:180px;
+    }
+
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 999;
+    }
+
+    @media screen and (max-width: 600px) {
+      .sections {
+        width: 100px;
+        border-radius: 25px;
+
+      }
+    }
+
+    #task-box {
+      min-width: min(500px, 90vw);
+    }
+
+    nav {
+      width: min(600px, 90vw);
+      margin-top: 20px;
+      margin-bottom: 20px;
+      padding: 8px;
+      border-radius:15px;
+      backdrop-filter: blur(10px);
+      background:rgba(109, 213, 237,0.25);
+      color:black;
+      box-shadow: 0px 4px 30px rgba(0,0,0,0.2);
+      border:1px solid rgba(255,255,255,0.3);
+
+
+
+
+
+    }
+    .task-section{
+      overflow-y: auto;
+      
+    }
+    .task-form-area {
+      min-width: min(400px,70vw);
+    }
+    .display-img{
+      width:min(500px,80vw);
+    }
+    .greet{
+      font-size: larger; text-align: center;
+
+          font-family: "Pacifico", cursive;
+  font-weight: 400;
+  font-style: normal;
+  color:#000046;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- navigation bar -->
+  <div class="d-flex justify-content-center">
+    <nav class="d-flex justify-content-center">
+      <!-- Logo -->
+      <div>
+        <span class="fs-4 text-light">
+       <img id="logo" src="{% static 'images/todoLogo.png' %}" alt="DoBuddy">
+        </span>
+      </div>
+  
+    </nav>
+
+  </div>
+  <div class="greet">
+    <p>Welcome Back,<span>
+      {% block user_name %}
+      {% endblock %} !
+    </span>
+  </p>
+  </div>
+  <!-- overlay -->
+  <div id="overlay" style="display: none;"></div>
+
+  <!-- dialog box -->
+  <div class="dialog-box-class bg-info-subtle" style="display: none;" id="dialog-box">
+    <div>
+      <p class="fs-4" id="dialog-text"></p>
+    </div>
+    <!-- action -btns -->
+    <div class="d-flex justify-content-end gap-3">
+      <button class="btn btn-outline-dark" id="cancel-btn">Cancel</button>
+      <button class="btn btn-danger" id="agree-btn">Yes</button>
+    </div>
+  </div>
+
+  {% block content %}
+
+  {% endblock %}
+  <script>
+    const dialogBox = document.getElementById('dialog-box');
+    const overlay = document.getElementById('overlay');
+    const taskform = document.getElementById('task-form');
+    const inpFormSec = document.getElementById('task-form-sec');
+    function displayDialog(type, btn) {
+      console.log("called befor dec")
+      const text = document.getElementById("dialog-text");
+      const form = btn.closest("form");
+      const confirmBtn = document.getElementById("agree-btn");
+      const cancelBtn = document.getElementById("cancel-btn");
+
+      overlay.style.display = "block";
+      dialogBox.style.display = "flex";
+      if (type === "done") {
+        text.textContent = "Mark this task as done?";
+      }
+
+      else if (type === "undone") {
+        text.textContent = "Mark this task as incomplete?";
+      }
+      else if (type === "delete") {
+        text.textContent = "Do you want to delete this task ?";
+      }
+      confirmBtn.addEventListener('click', () => {
+        form.submit();
+      });
+      cancelBtn.addEventListener('click', () => {
+        btn.checked = false;
+        dialogBox.style.display = "none";
+        overlay.style.display = "none";
+      })
+
+    }
+    function toggleForm() {
+      inpFormSec.style.display === "none" ? inpFormSec.style.display = "block" : inpFormSec.style.display = "none";
+    }
+
+    taskform.addEventListener('submit', toggleForm);
+  </script>
+</body>
+
+</html>

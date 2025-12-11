@@ -1,0 +1,161 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"
+        defer></script>
+
+    <style>
+        /* buttons */
+
+
+        body {
+            /* background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+            background-image: linear-gradient(to left, #BDBBBE 0%, #9D9EA3 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%);
+            background-blend-mode: normal, lighten, soft-light;
+            font-size:larger;
+        }
+
+
+
+
+        /* image */
+        .girl-img {
+            width: 300px;
+            position: absolute;
+            right: -110px;
+            top: 40%;
+            z-index: 2;
+            transform: translateY(-30%);
+                pointer-events: none;
+        }
+
+        .girl-img {
+            margin-left: -50px;
+        }
+
+
+        /* form  */
+
+        .form-box {
+            min-width: min(300px, 80vw);
+            height: 200px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-box:hover {
+            transform: scale(1.05);
+        }
+
+        /* wraps */
+        .wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .sub {
+            transition: all 0.5s ease;
+            max-width: 80px;
+        }
+
+        .sub:hover {
+            border-radius: 25px;
+            background-color: #212529 !important;
+
+        }
+
+        @media (max-width:768px) {
+            .form-box {
+
+                min-width: min(300px, 60vw);
+            }
+
+            .girl-img {
+                width: 200px;
+                position: absolute;
+                right: -75px;
+                top: 40%;
+                z-index: 2;
+                transform: translateY(-30%);
+                    pointer-events: none;
+            }
+
+        }
+
+        .wave {
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            color: linear-gradient(to right, #434343, #000000);
+        }
+    </style>
+</head>
+
+
+
+<body class="d-flex flex-column justify-content-center align-items-center min-vh-100">
+
+    <div class="wrapper ">
+
+
+        <div class="form-box">
+            <span class="text-dark">
+                <img style="width:150px;"  src="{% static 'images/todoLogo.png' %}" alt="">
+              
+            </span>
+            <form action="{% url 'landingPage' %}" method="post" class="d-flex flex-column gap-2 align-items-center mt-2">
+                {% csrf_token %}
+                <input id="input-box" class="form-control w-100" type="text" name="username" required
+                    placeholder="Enter your name">
+                <button type="submit" class="btn sub btn-dark">Submit</button>
+            </form>
+        </div>
+        <div class="img-box">
+
+            <img src="{% static 'images/girl.png' %}" alt="" class="girl-img">
+        </div>
+
+    </div>
+    <div class="wave">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="linear-gradient(to right, #434343, #000000)" fill-opacity="1"
+                d="M0,128L40,122.7C80,117,160,107,240,101.3C320,96,400,96,480,128C560,160,640,224,720,250.7C800,277,880,267,960,240C1040,213,1120,171,1200,160C1280,149,1360,171,1400,181.3L1440,192L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z">
+            </path>
+        </svg>
+    </div>
+    <script>
+
+        document.querySelector('button').addEventListener("mouseover",()=>{
+
+            console.log("hover");
+        })
+    </script>
+</body>
+
+</html>

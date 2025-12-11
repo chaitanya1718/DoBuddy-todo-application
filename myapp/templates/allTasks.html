@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block user_name %}
+{{ user_name }}
+{% endblock %}
+{% block content %}
+<section>
+   
+    <!-- dialog box end -->
+    <!-- container -->
+    <div class="min-vh-100 d-flex flex-column gap-2 ">
+        <!-- add btn -->
+        <div class="d-flex flex-column">
+            <a onclick="toggleForm()" class="align-self-center"><i style="color:black; font-size: 2rem;"
+                    class="bi bi-plus-circle-fill"></i></a>
+            <div id="task-form-sec" class="task-form-area"  style="display: none;">
+                <!-- task input -->
+                <form id="task-form" class="d-flex gap-2 justify-content-center" action="{% url 'addTask' %}"
+                    method="post">
+                    {% csrf_token %}
+                    <input type="text" name="task-name" id="task-inp" class="form-control w-25"
+                     autofocus      placeholder="Enter Task">
+                    <button class="btn btn-dark rounded-2">Add</button>
+                </form>
+            </div>
+        </div>
+        <!-- section btns -->
+        <div class="d-flex justify-content-center">
+            <div class="">
+                <a href="{% url 'home' %}" class="sections btn btn-outline-dark">Active</a>
+                <a href="{% url 'completedTasks' %}" class="sections btn  btn-outline-dark">Completed</a>
+                <a href="{% url 'allTasks' %}" class="sections btn btn-dark">All todos</a>
+            </div>
+        </div>
+        <!--display tsks  -->
+        <div class="d-flex justify-content-center">
+
+            <div class=" p-2">
+
+
+                {% for task in tasks %}
+
+
+                <div id="task-box"
+                    class="rounded-2 d-flex justify-content-between px-4 py-2 task {% if task.task_status %} bg-success-subtle  {% else %} bg-secondary-subtle{% endif %} mb-2 ">
+                    <!-- mark as done and task name -->
+                    <div class="d-flex gap-2 ">
+                        <!-- mark form -->
+                        <form action="{% url 'markTask' task.id %}?next={{ request.path }}">
+                        {% if task.task_status %}
+                            <input class="form-check-input" type="radio"  onchange="displayDialog('done',this)">
+                        {% else %}
+                            <a onclick="displayDialog('undone',this)"><i class="bi bi-check-circle-fill"></i></a>
+                            {% endif %}
+                        </form>
+                        <span class="d-inline text-dark {% if not task.task_status %} text-opacity-50 {% endif %}"> {{ task.task_name }}</span>
+                    </div>
+                    <!-- delete button -->
+                    <form action="{% url 'delTask' task.id %}?next={{ request.path }}" method="post" id="delForm">
+                        {% csrf_token %}
+                        <a onclick="displayDialog('delete',this)"><i class="  {% if task.task_status %} text-success {% else %} text-secondary {% endif %} bi bi-trash3-fill"></i></a>
+                    </form>
+                </div>
+                {% empty %}
+                <img class="display-img" src="{% static 'images/completed.png' %}" alt="No tasks">
+                <p style="text-align: center;">Start adding todos, tasks now.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</section>
+<script>
+
+</script>
+
+{% endblock %}
